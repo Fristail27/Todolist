@@ -11,7 +11,7 @@ export type TaskType = {
 function App() {
     const tasks1: Array<TaskType>  = [
         { id: 1, title: "HTML&CSS", isDone: true },
-        { id: 2, title: "JS1", isDone: true },
+        { id: 2, title: "JS", isDone: true },
         { id: 3, title: "ReactJS", isDone: false },
 
     ]
