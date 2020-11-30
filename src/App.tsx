@@ -22,19 +22,15 @@ function App() {
         { id: v1(), title: "NodeJS", isDone: false },
         { id: v1(), title: "Angular", isDone: false },
     ]);
-
-
-    const [filter, setFilter] = useState <filterValuesType>("all")
+    const [filter, setFilter] = useState <filterValuesType>("all");
 
     function changeFiltter(filterValue: filterValuesType) {
         setFilter(filterValue)
-    }
-
+    };
     function removeTask(taskID: string) {
         const filteredTasks = tasks.filter(task => task.id !== taskID)
         setTasks(filteredTasks)
-    }
-
+    };
     function addTask(title: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -42,7 +38,14 @@ function App() {
             isDone: false,
         }
         setTasks([newTask, ...tasks])
-    }
+    };
+    function changeStatus(taskID :string, isDone :boolean) {
+        const task = tasks.find(t => t.id === taskID);
+        if (task) {
+            task.isDone = isDone;
+            setTasks([...tasks]);
+        };
+    };
 
     let taskForTodoList = tasks;
     if (filter === "active") {
@@ -54,7 +57,15 @@ function App() {
 
     return (
         <div className="App">
-            <TodoList title={"What to learn"} tasks={taskForTodoList} addTask={addTask} removeTask={removeTask} changeFiltter={changeFiltter}/>
+            <TodoList
+                title={"What to learn"}
+                tasks={taskForTodoList}
+                filter={filter}
+                addTask={addTask}
+                removeTask={removeTask}
+                changeFiltter={changeFiltter}
+                changeStatus={changeStatus}
+            />
         </div>
     );
 }
