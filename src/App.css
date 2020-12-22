@@ -1,29 +1,29 @@
-.App {
-  padding: 30px;
-  display: flex;
-}
-.App > div {
-  margin-right: 50px;
-}
-.error {
-  border: red 2px solid;
-}
-.error-message {
-  color: red;
-}
-.active-filter {
-  background-color: #4868e0;
-  color: white;
-}
-.is-done {
-  opacity: 0.5;
-}
-.Title{
-  display: inline-block;
-}
-.HeaderTodolist {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/*.App {*/
+/*  padding: 30px;*/
+/*  display: flex;*/
+/*}*/
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
+/*.error {*/
+/*  border: red 2px solid;*/
+/*}*/
+/*.error-message {*/
+/*  color: red;*/
+/*}*/
+/*.active-filter {*/
+/*  background-color: #4868e0;*/
+/*  color: white;*/
+/*}*/
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*}*/
+/*.Title{*/
+/*  display: inline-block;*/
+/*}*/
+/*.HeaderTodolist {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*}*/
 
