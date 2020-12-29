@@ -14,7 +14,7 @@ export type TaskType = {
 
 export type filterValuesType = "all" | "active" | "completed"
 
-type TodolistType = {
+export type TodolistType = {
     id: string,
     title: string,
     filter: filterValuesType,
@@ -54,13 +54,11 @@ function App() {
         }
 
     };
-
     function removeTask(taskID: string, todolistID: string) {
         const todolistTasks = tasks[todolistID].filter(t => t.id !== taskID);
         tasks[todolistID] = todolistTasks;
         setTasks({...tasks})
     };
-
     function addTask(title: string, todolistID: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -70,7 +68,6 @@ function App() {
         tasks[todolistID] = [newTask, ...tasks[todolistID]];
         setTasks({...tasks})
     };
-
     function changeStatus(taskID: string, isDone: boolean, todolistID: string) {
         const task = tasks[todolistID].find(t => t.id === taskID);
         if (task) {
@@ -79,13 +76,11 @@ function App() {
         }
         ;
     };
-
     function deleteTodolist(todolistID: string) {
         setTodolists(todolists.filter(el => el.id !== todolistID));
         delete tasks[todolistID];
         setTasks({...tasks});
     };
-
     function addTodoList(title: string) {
         const newTodolistID = v1();
         const newTodolist: TodolistType = {
@@ -99,7 +94,6 @@ function App() {
             [newTodolistID]: []
         })
     };
-
     function changeTaskTitle(taskID: string, title: string, todolistID: string) {
         const task = tasks[todolistID].find(t => t.id === taskID);
         if (task) {
@@ -108,7 +102,6 @@ function App() {
         }
         ;
     };
-
     function changeTodolistTitle(title: string, todolistID: string) {
         const todolist = todolists.find(t => t.id === todolistID)
         if (todolist) {
