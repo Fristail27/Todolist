@@ -1,9 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {filterValuesType, TaskType} from "./App";
+import {filterValuesType, TaskType, TodolistType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, ButtonGroup, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
 
 type PropsType = {
     id: string,
@@ -20,7 +22,6 @@ type PropsType = {
 }
 
 export function TodoList(props: PropsType) {
-
     const tasks = props.tasks.map(taskObj => {
         const removeTask = () => {
             props.removeTask(taskObj.id, props.id)
