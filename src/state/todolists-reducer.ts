@@ -52,6 +52,7 @@ export const todoListsReducer = (state: Array<TodolistType> = initialState, acti
                 todolist.filter = action.filter
                 return [...state]
             }
+            console.log(state)
             return [...state]
         }
         default:
