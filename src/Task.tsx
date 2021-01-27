@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import EditableSpan from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
 
-type TaskPropsType = {
+export type TaskPropsType = {
     id: string
     todolistID:string
     isDone: boolean
