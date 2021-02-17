@@ -1,10 +1,13 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {filterValuesType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, ButtonGroup, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import Task from "./Task";
+import {TaskStatuses} from "./api/todolist-api";
+import {Task} from "./Task";
+import { fetchTasksTC } from "./state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 type PropsType = {
     id: string,
@@ -14,24 +17,34 @@ type PropsType = {
     addTask: (title: string, todolistID: string) => void,
     removeTask: (taskID: string, todolistID: string) => void,
     changeFiltter: (filterValue: filterValuesType, todolistID: string) => void,
-    changeStatus: (taskID: string, isDone: boolean, todolistID: string) => void,
+    changeStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     deleteTodolist: (todolistID: string) => void,
     changeTaskTitle: (taskID: string, title: string, todolistID: string) => void,
     changeTodolistTitle: (title: string, todolistID: string) => void,
 }
 
 export const TodoList = React.memo((props: PropsType) =>{
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(fetchTasksTC(props.id))
+    },[])
+
     const {id, changeFiltter, addTask: addTaskT, changeTodolistTitle:changeTodolistTitleT } = props
-    let taskForTodoList = props.tasks
-    if (props.filter === "active") {
-        taskForTodoList = props.tasks.filter(task => !task.isDone)
+    let tasksForTodolist = props.tasks
+
+    if (props.filter === 'active') {
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
-    if (props.filter === "completed") {
-        taskForTodoList = props.tasks.filter(task => task.isDone)
+    if (props.filter === 'completed') {
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
-    const tasks = taskForTodoList.map(taskObj => {
+    const tasks = tasksForTodolist.map(t => {
         return (
-            <Task key={taskObj.id} id={taskObj.id} todolistID={props.id} title={taskObj.title} isDone={taskObj.isDone} changeStatus={props.changeStatus} changeTaskTitle={props.changeTaskTitle} removeTask={props.removeTask}/>
+            <Task key={t.id} task={t} todolistId={props.id}
+                  removeTask={props.removeTask}
+                  changeTaskTitle={props.changeTaskTitle}
+                  changeTaskStatus={props.changeStatus}
+            />
         )
     })
     const AllOnClickHandler = useCallback (() => {
