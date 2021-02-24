@@ -2,12 +2,22 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import AddItemForm from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    LinearProgress,
+    Paper,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
     ChangeTodolistFilterAC, changeTodolistTitleTC,
     createTodolistTC,
-    fetchTodolistsThunkCreator,
+    fetchTodolistsTC,
     removeTodolistTC,
     TodolistDomainType
 } from "./state/todolists-reducer";
@@ -18,12 +28,15 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TaskStatuses, TaskPriorities} from "./api/todolist-api";
+import { RequestStatusType } from './state/app-reducer';
+import {ErrorSnackbar} from "./components/errorSnackBar/ErrorSnackBar";
 
 export type TaskType = {
     description: string
     title: string
     status: TaskStatuses
     priority: TaskPriorities
+    entityStatus: RequestStatusType
     startDate: string
     deadline: string
     id: string
@@ -48,12 +61,12 @@ export type TaskStateType = {
 export function App() {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>> (state => state.todolists)
     const tasks = useSelector<AppRootStateType, TaskStateType> (state => state.tasks)
-
-
+    const status = useSelector<AppRootStateType, RequestStatusType>(state=>state.app.status)
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
 
     const dispatch = useDispatch()
     useEffect(()=> {
-        dispatch(fetchTodolistsThunkCreator())
+        dispatch(fetchTodolistsTC())
     }, [])
 
     const changeFiltter = useCallback((filterValue: filterValuesType, todolistID: string) =>{
@@ -90,6 +103,7 @@ export function App() {
 
     return (
         <div className="App">
+            {error && <ErrorSnackbar errorMessage={error}/>}
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -101,6 +115,7 @@ export function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {status === 'loading' && <LinearProgress color="secondary" />}
             <Container fixed={true} >
                 <Grid style={{padding:"15px"}} container={true}>
                     <AddItemForm addItem={addTodoList}/>
@@ -117,6 +132,7 @@ export function App() {
                                             title={tl.title}
                                             tasks={tasks[tl.id]}
                                             filter={tl.filter}
+                                            entityStatus={tl.entityStatus}
                                             addTask={addTask}
                                             removeTask={removeTask}
                                             changeFiltter={changeFiltter}

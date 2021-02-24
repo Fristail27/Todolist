@@ -12,7 +12,7 @@ const settings = {
 const instance = axios.create({
     ...settings
     })
-type BaseResponseType<D = {}> = {
+export type BaseResponseType<D = {}> = {
     resultCode: number
     fieldsErrors: Array<string>
     messages: Array<string>
